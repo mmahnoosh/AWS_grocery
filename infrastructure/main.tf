@@ -100,8 +100,8 @@ resource "aws_security_group" "ec2_sg" {
 
   ingress {
     description = "HTTP"
-    from_port   = 80
-    to_port     = 80
+    from_port   = 5000
+    to_port     = 5000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -116,13 +116,13 @@ resource "aws_security_group" "ec2_sg" {
 
 resource "aws_security_group" "rds_sg" {
   name        = "rds-security-group"
-  description = "Allow MySQL from EC2 only"
+  description = "Allow Postgres from EC2 only"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "MySQL from EC2"
-    from_port       = 3306
-    to_port         = 3306
+    description     = "Postgres from EC2"
+    from_port       = 5432
+    to_port         = 5432
     protocol        = "tcp"
     security_groups = [aws_security_group.ec2_sg.id]
   }
@@ -151,7 +151,7 @@ resource "aws_instance" "ec2_instance" {
 }
 
 ##########################
-# RDS MySQL
+# RDS Postgres
 ##########################
 resource "aws_db_subnet_group" "db_subnets" {
   name       = "db-subnet-group"
@@ -165,8 +165,8 @@ resource "aws_db_subnet_group" "db_subnets" {
 resource "aws_db_instance" "app_db" {
   identifier              = "app-database"
   allocated_storage       = 20
-  engine                  = "mysql"
-  engine_version          = "8.0"
+  engine                  = "postgres"
+  engine_version          = "17.2"
   instance_class          = "db.t3.micro"
   username                = var.db_username
   password                = var.db_password

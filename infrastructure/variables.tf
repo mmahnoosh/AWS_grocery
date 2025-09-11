@@ -6,7 +6,7 @@ variable "instance_type" {
 variable "db_username" {
   description = "RDS username"
   type        = string
-  default     = "adminuser"
+  default     = "postgres"
 }
 
 
