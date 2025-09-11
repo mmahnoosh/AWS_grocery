@@ -174,3 +174,14 @@ resource "aws_db_instance" "app_db" {
   vpc_security_group_ids  = [aws_security_group.rds_sg.id]
   db_subnet_group_name    = aws_db_subnet_group.db_subnets.name
 }
+##########################
+# S3 Storage
+##########################
+resource "aws_s3_bucket" "avatars" {
+  bucket = "grocerymate-avatars-eu-dev-20250911"
+
+  tags = {
+    Name        = "grocerymate-avatars"
+    Environment = "Dev"
+  }
+}
