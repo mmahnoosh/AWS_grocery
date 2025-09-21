@@ -7,6 +7,14 @@ data "aws_availability_zones" "available" {
 }
 
 ##########################
+# Key Pair (für SSH)
+##########################
+resource "aws_key_pair" "deployer" {
+  key_name   = "grocery-key"
+  public_key = file("~/.ssh/id_rsa.pub")
+}
+
+##########################
 # VPC
 ##########################
 resource "aws_vpc" "main" {
@@ -99,7 +107,7 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   ingress {
-    description = "HTTP"
+    description = "HTTP (App)"
     from_port   = 5000
     to_port     = 5000
     protocol    = "tcp"
@@ -144,6 +152,7 @@ resource "aws_instance" "ec2_instance" {
   subnet_id                   = aws_subnet.public.id
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   associate_public_ip_address = true
+  key_name                    = aws_key_pair.deployer.key_name
 
   tags = {
     Name = "AppServer"
@@ -166,22 +175,42 @@ resource "aws_db_instance" "app_db" {
   identifier              = "app-database"
   allocated_storage       = 20
   engine                  = "postgres"
-  engine_version          = "17.2"
+  engine_version          = "14.10" # stabile Version
   instance_class          = "db.t3.micro"
   username                = var.db_username
   password                = var.db_password
+  db_name                 = "grocerymate_db"
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.rds_sg.id]
   db_subnet_group_name    = aws_db_subnet_group.db_subnets.name
 }
+
 ##########################
-# S3 Storage
+# S3 Bucket
 ##########################
-resource "aws_s3_bucket" "avatars" {
-  bucket = "grocerymate-avatars-eu-dev-20250911"
+resource "random_id" "bucket_id" {
+  byte_length = 4
+}
+
+resource "aws_s3_bucket" "grocery_bucket" {
+  bucket = "aws-grocery-${random_id.bucket_id.hex}"
 
   tags = {
-    Name        = "grocerymate-avatars"
-    Environment = "Dev"
+    Name = "aws-grocery-bucket"
   }
+}
+
+##########################
+# Outputs
+##########################
+output "ec2_public_ip" {
+  value = aws_instance.ec2_instance.public_ip
+}
+
+output "rds_endpoint" {
+  value = aws_db_instance.app_db.endpoint
+}
+
+output "s3_bucket_name" {
+  value = aws_s3_bucket.grocery_bucket.bucket
 }
