@@ -1,4 +1,4 @@
-# # Deployment Guide for AWS Grocery App (Terraform Deployment)
+## Deployment Guide for AWS Grocery App (Terraform Deployment)
 
 ## 🏆 GroceryMate E-Commerce Platform
 
@@ -52,6 +52,18 @@ The infrastructure includes an EC2 instance for the application, an RDS PostgreS
 - **Security Groups**: to allow
   - SSH & HTTP access to EC2.
   - PostgreSQL access only from EC2.
+ 
+## 🛠️ Terraform configuration
+```
+/infrastructure
+│── main.tf
+│── variables.tf
+│── outputs.tf
+│── terraform.tfvars
+│── S3.tf
+└── README.md
+```
+
 ## 📸 Screenshots & Demo
 
 ![imagen](https://github.com/user-attachments/assets/ea039195-67a2-4bf2-9613-2ee1e666231a)
@@ -62,75 +74,58 @@ The infrastructure includes an EC2 instance for the application, an RDS PostgreS
 https://github.com/user-attachments/assets/d1c5c8e4-5b16-486a-b709-4cf6e6cce6bc
 
 ## 📋 Prerequisites
+- **AWS account**
+- **AWS CLI installed & configured (aws configure)**
+- **Terraform installed (v1.5+)**
+- **SSH key pair in AWS (for EC2 access)**
 
-Ensure the following dependencies are installed before running the application:
+## 🚀 Deployment Steps
 
-- **🐍 Python (>=3.11)**
-- **🐘 PostgreSQL** – Database for storing product and user information.
-- **🛠️ Git** – Version control system.
-
-## ⚙️ Installation
-
-### 🔹 Clone Repository
+### 🔹 Clone the Repository
 
 ```sh
-git clone --branch version2 https://github.com/AlejandroRomanIbanez/AWS_grocery.git && cd AWS_grocery
+git clone https://github.com/<your-username>/AWS_grocery.git && cd AWS_grocery
 ```
 
-### 🔹 Configure PostgreSQL
-
-Before creating the database user, you can choose a custom username and password to enhance security. Replace `<your_secure_password>` with a strong password of your choice in the following commands.
-
-Create database and user:
-
+### 🔹 Initialize Terraform
 ```sh
-psql -U postgres -c "CREATE DATABASE grocerymate_db;"
-psql -U postgres -c "CREATE USER grocery_user WITH ENCRYPTED PASSWORD '<your_secure_password>';"  # Replace <your_secure_password> with a strong password of your choice
-psql -U postgres -c "ALTER USER grocery_user WITH SUPERUSER;"
+terraform init
 ```
 
-### 🔹 Populate Database
-
+### 🔹 Preview changes
 ```sh
-psql -U grocery_user -d grocerymate_db -f backend/app/sqlite_dump_clean.sql
+terraform plan
+
 ```
 
-Verify insertion:
-
+### 🔹 Apply the configuration
 ```sh
-psql -U grocery_user -d grocerymate_db -c "SELECT * FROM users;"
-psql -U grocery_user -d grocerymate_db -c "SELECT * FROM products;"
+terraform apply -auto-approve
 ```
 
-### 🔹 Set Up Python Environment
-
-
-Install dependencies in an activated virtual Enviroment:
-
+### 🔹 Access the application
 ```sh
-cd backend
-pip install -r requirements.txt
+terraform output
 ```
-OR (if pip doesn't exist)
+
+# 🛠️ Variables
+
+|       Variable       |      Description       |   Default     |
+|----------------------|------------------------|---------------|
+| `instance_type`      | EC2 instance type      | `t2.micro`    |
+| `db_username`        | RDS username           | `postgres`    |
+| `db_password`        | RDS password           | set manually  |
+| `vpc_cidr`           | VPC CIDR block         | `10.10.0.0/16`|
+| `public_subnet_cidr` | Public subnet CIDR     | `10.10.1.0/24`|
+| `private_subnet1_cidr` | Private subnet 1 CIDR | `10.10.2.0/24`|
+| `private_subnet2_cidr` | Private subnet 2 CIDR | `10.10.3.0/24`|
+
+**🧹 Cleanup**
+
+To avoid unnecessary AWS costs, destroy resources when not needed:
 ```sh
-pip3 install -r requirements.txt
+terraform destroy -auto-approve
 ```
-
-### 🔹 Set Environment Variables
-
-Create a `.env` file:
-
-```sh
-touch .env  # macOS/Linux
-ni .env -Force  # Windows
-```
-
-Generate a secure JWT key:
-
-```sh
-python3 -c "import secrets; print(secrets.token_hex(32))"
-```
-
 Update `.env`:
 
 ```sh
@@ -154,22 +149,18 @@ POSTGRES_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}
 python3 run.py
 ```
 
-## 📖 Usage
+## 📊 Cost Considerations
 
-- Access the application at [http://localhost:5000](http://localhost:5000)
-- Register/Login to your account
-- Browse and search for products
-- Manage favorites and shopping basket
-- Proceed through the checkout process
+- **EC2**: Free tier eligible (t2.micro)
 
-## 🤝 Contributing
+- **RDS**: Costs may apply (db.t3.micro ~ free tier for 12 months)
 
-We welcome contributions! Please follow these steps:
+- **S3**: Low cost, pay per storage and requests
 
-1. Fork the repository.
-2. Create a new feature branch (`feature/your-feature`).
-3. Implement your changes and commit them.
-4. Push your branch and create a pull request.
+## 📷 Architecture Diagram
+## ✅ Summary
+This project shows how to deploy a cloud-based application with Terraform on AWS.
+You learned how to provision networking, compute, database, and storage resources in a reproducible way. 
 
 ## 📜 License
 
