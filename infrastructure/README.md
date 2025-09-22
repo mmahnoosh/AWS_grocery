@@ -1,4 +1,4 @@
-## Deployment Guide for AWS Grocery App (Terraform Deployment)
+# Deployment Guide for AWS Grocery App (Terraform Deployment)
 
 ## 🏆 GroceryMate E-Commerce Platform
 
@@ -12,71 +12,71 @@
 
 ---
 
-## 📌 Table of Contents
-
-- [Overview](#-overview)
-- [Features](#-features)
-- [Screenshots & Demo](#-screenshots--demo)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-  - [Clone Repository](#-clone-repository)
-  - [Configure PostgreSQL](#-configure-postgresql)
-  - [Populate Database](#-populate-database)
-  - [Set Up Python Environment](#-set-up-python-environment)
-  - [Set Environment Variables](#-set-environment-variables)
-  - [Start the Application](#-start-the-application)
-- [Usage](#-usage)
-- [Contributing](#-contributing)
-- [License](#-license)
-
 ## 🏁 Introduction
 
 GroceryMate is an application developed as part of the Masterschools program by **Alejandro Roman Ibanez**. It is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
 
 GroceryMate is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
 
-For details about the application's features, functionality, and local installation, refer to the original [`README.md`](APPLICATION.md) by Alejandro.
+> For details about the application's features, functionality, and local installation, refer to the original [`README.md`](APPLICATION.md) by Alejandro.
 
-This document focuses exclusively on the AWS infrastructure, deployment process, and automation.
+> This document focuses exclusively on the AWS infrastructure, deployment process, and automation.
 
-## 🚀 Overview
-This project demonstrates how to deploy a simple web application on AWS using Terraform.
-The infrastructure includes an EC2 instance for the application, an RDS PostgreSQL database, and an S3 bucket for file storage.
 
-## 🏗️ Infrastructure 
+## 🌐 Architecture & Approach
 
-- **VPC**: with public and private subnets.
-- **EC2 Instance**: (Amazon Linux 2) to run the Grocery app.
-- **RDS (PostgreSQL)**: in private subnets.
-- **S3 Bucket**: for storing images/files.
-- **Security Groups**: to allow
-  - SSH & HTTP access to EC2.
-  - PostgreSQL access only from EC2.
- 
-## 🛠️ Terraform configuration
-```
+We use **AWS Lambda** for a serverless backend: no server management, cost efficiency (pay per execution), and automatic scaling.  
+All infrastructure is provisioned with **Terraform**, ensuring reproducible and maintainable deployments.
+
+
+## 📷 Architecture Diagram
+
+<img width="359" height="530" alt="AWS_grocery-Diagram drawio" src="https://github.com/user-attachments/assets/fa482501-64d2-4e2c-83c5-c198e5c09df0" />
+
+
+### Components
+
+- **VPC** with public and private subnets  
+- **EC2 Instance** (Amazon Linux 2) to host the app  
+- **RDS (PostgreSQL)** in private subnets  
+- **S3 Bucket** for static assets  
+- **Security Groups** for:
+  - SSH & HTTP access to EC2  
+  - PostgreSQL access restricted to EC2
+
+---
+
+## 🛠️ Terraform Layout
+
+```text
 /infrastructure
 │── main.tf
 │── variables.tf
 │── outputs.tf
 │── terraform.tfvars
 │── S3.tf
+├─ Lambda/                
+└─ serverless/
+   └─ infra/
+       ├─ main.tf
+       ├─ variables.tf
+       └─ outputs.tf
 └── README.md
+
 ```
 
 ## 📸 Screenshots & Demo
 
 ![imagen](https://github.com/user-attachments/assets/ea039195-67a2-4bf2-9613-2ee1e666231a)
 
-![imagen](https://github.com/user-attachments/assets/2772b85e-81f7-446a-9296-4fdc2b652cb7)
 
 https://github.com/user-attachments/assets/d1c5c8e4-5b16-486a-b709-4cf6e6cce6bc
 
 ## 📋 Prerequisites
-- **AWS account**
-- **AWS CLI installed & configured (aws configure)**
-- **Terraform installed (v1.5+)**
-- **SSH key pair in AWS (for EC2 access)**
+- AWS account
+- AWS CLI installed & configured (aws configure)
+- Terraform v1.5+
+- AWS SSH key pair (for EC2 access)
 
 ## 🚀 Deployment Steps
 
@@ -156,7 +156,6 @@ python3 run.py
 
 - **S3**: Low cost, pay per storage and requests
 
-## 📷 Architecture Diagram
 ## ✅ Summary
 This project shows how to deploy a cloud-based application with Terraform on AWS.
 You learned how to provision networking, compute, database, and storage resources in a reproducible way. 
