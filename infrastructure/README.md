@@ -11,7 +11,27 @@
 ⭐ **Star us on GitHub** — it motivates us a lot!
 
 ---
+## 📌 Table of Contents
 
+- [🏁 Introduction](#-introduction)
+- [🌐 Architecture & Approach](#-architecture--approach)
+  - [Components](#components)
+- [🛠️ Terraform Layout](#️-terraform-layout)
+- [📸 Screenshots & Demo](#-screenshots--demo)
+- [🔍 CloudWatch Monitoring](#-cloudwatch-monitoring)
+- [📋 Prerequisites](#-prerequisites)
+- [🚀 Deployment Steps](#-deployment-steps)
+- [⚙️ Configuration Variables](#️-configuration-variables)
+- [🧹 Cleanup](#-cleanup)
+- [🔧 Environment Variables](#-environment-variables)
+- [▶️ Run the Application](#️-run-the-application)
+- [💰 Cost Considerations](#-cost-considerations)
+- [🗺️ Architecture Diagram](#️-architecture-diagram)
+- [📚 Lessons Learned](#-lessons-learned)
+- [✅ Summary](#-summary)
+- [🧑‍💻 Contributing](#-contributing)
+- [📜 License](#-license)
+  
 ## 🏁 Introduction
 
 GroceryMate is an application developed as part of the Masterschools program by **Alejandro Roman Ibanez**. It is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
@@ -22,7 +42,18 @@ GroceryMate is a modern, full-featured e-commerce platform designed for seamless
 
 > This document focuses exclusively on the AWS infrastructure, deployment process, and automation.
 
+## 🛒 Features
 
+- **🛡️ User Authentication**: Secure registration, login, and session management.
+- **🔒 Protected Routes**: Access control for authenticated users.
+- **🔎 Product Search & Filtering**: Browse products, apply filters, and sort by category or price.
+- **⭐ Favorites Management**: Save preferred products.
+- **🛍️ Shopping Basket**: Add, view, modify, and remove items.
+- **💳 Checkout Process**:
+  - Secure billing and shipping information handling.
+  - Multiple payment options.
+  - Automatic total price calculation.
+  
 ## 🌐 Architecture & Approach
 
 We use **AWS Lambda** for a serverless backend: no server management, cost efficiency (pay per execution), and automatic scaling.  
@@ -106,6 +137,36 @@ terraform apply -auto-approve
 ```sh
 terraform output
 ```
+## 🐘 PostgreSQL Setup
+
+You need a PostgreSQL database and a user before running the application.  
+This can be done locally or with AWS RDS.
+
+### Local Setup (Optional)
+
+1. Log in to PostgreSQL:
+   ```bash
+   psql -U postgres
+2. Create the database and user:
+```bash
+   CREATE DATABASE grocerymate_db;
+   CREATE USER grocery_user WITH ENCRYPTED PASSWORD '<your_secure_password>';
+   GRANT ALL PRIVILEGES ON DATABASE grocerymate_db TO grocery_user;
+
+3. Verify that the tables can be accessed:
+\c grocerymate_db
+\dt
+
+## AWS RDS Setup
+
+1. Create a PostgreSQL RDS instance in the same VPC as your EC2.
+2. Make sure port 5432 is open for your EC2 security group.
+3. Connect from EC2:
+
+psql -h <RDS_ENDPOINT> -U grocery_user -d grocerymate_db
+
+4. Update your .env file with the RDS endpoint:
+POSTGRES_HOST=<your_rds_endpoint>
 
 # 🛠️ Variables
 
@@ -160,10 +221,16 @@ python3 run.py
 This project shows how to deploy a cloud-based application with Terraform on AWS.
 You learned how to provision networking, compute, database, and storage resources in a reproducible way. 
 
+## 🧑‍💻 Contributing
+
+Contributions, issues, and feature requests are welcome!  
+Here’s how you can contribute:
+
+1. **Fork** the repository  
+2. Create a new branch:  
+   ```bash
+   git checkout -b feature/your-feature
+
 ## 📜 License
 
 This project is licensed under the MIT License.
-
-
-
-
