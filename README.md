@@ -16,7 +16,7 @@
 - [📖 Introduction](#-introduction)
 - [🛒 Features](#-Features)
 - [🏗️ Architecture & Approach](#architecture--approach)
-- [🛠️ Terraform Layout](#-terraform-layout)
+- [🛠️ Terraform Layout](#terraform-layout)
 - [📸 Screenshots & Demo](#-screenshots--demo)
 - [📋 Prerequisites](#-prerequisites)
 - [🚀 Deployment Steps](#-deployment-steps)
