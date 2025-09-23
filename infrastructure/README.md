@@ -13,9 +13,9 @@
 ---
 ## 📌 Table of Contents
 
-- [🏁 Introduction](#-introduction)
+- [📖 Introduction](#-introduction)
 - [🛒 Features](#-Features)
-- [🌐 Architecture & Approach](#-architecture--approach)
+- [🏗️ Architecture & Approach](#-architecture--approach)
 - [🛠️ Terraform Layout](#-terraform-layout)
 - [📸 Screenshots & Demo](#-screenshots--demo)
 - [📋 Prerequisites](#-prerequisites)
@@ -30,48 +30,52 @@
 - [🧑‍💻 Contributing](#-contributing)
 - [📜 License](#-license)
   
-## 🏁 Introduction
+## 📖 Introduction
 
 GroceryMate is an application developed as part of the Masterschools program by **Alejandro Roman Ibanez**. It is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
 
 GroceryMate is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
 
+> This document focuses exclusively on the AWS infrastructure, deployment process, and automation.
 > For details about the application's features, functionality, and local installation, refer to the original [`README.md`](APPLICATION.md) by Alejandro.
 
-> This document focuses exclusively on the AWS infrastructure, deployment process, and automation.
 
 ## 🛒 Features
 
-- **🛡️ User Authentication**: Secure registration, login, and session management.
-- **🔒 Protected Routes**: Access control for authenticated users.
+- **🛡️ Authentication**: Secure login & session management
+- **🔒 Protected Routes**: Access control for authenticated users
 - **🔎 Product Search & Filtering**: Browse products, apply filters, and sort by category or price.
 - **⭐ Favorites Management**: Save preferred products.
 - **🛍️ Shopping Basket**: Add, view, modify, and remove items.
-- **💳 Checkout Process**:
-  - Secure billing and shipping information handling.
-  - Multiple payment options.
-  - Automatic total price calculation.
-  
-## 🌐 Architecture & Approach
+- **💳 Checkout Process**: with billing, shipping & payments
 
-We use **AWS Lambda** for a serverless backend: no server management, cost efficiency (pay per execution), and automatic scaling.  
-All infrastructure is provisioned with **Terraform**, ensuring reproducible and maintainable deployments.
+  
+## 🏗️ Architecture & Approach
+
+We use AWS Lambda + API Gateway for a serverless backend:
+
+- No server management
+- Pay-per-execution
+- Automatic scaling
+
+All infrastructure is deployed with Terraform, ensuring reproducibility and maintainability.
 
 
 ## 📷 Architecture Diagram
 
-<img width="359" height="530" alt="AWS_grocery-Diagram drawio" src="https://github.com/user-attachments/assets/fa482501-64d2-4e2c-83c5-c198e5c09df0" />
+<img width="1101" height="867" alt="MyDiagram drawio" src="https://github.com/user-attachments/assets/e2c26374-2b2b-42bf-9dc6-e94990dab4ea" />
+
 
 
 ### Components
 
-- **VPC** with public and private subnets  
-- **EC2 Instance** (Amazon Linux 2) to host the app  
-- **RDS (PostgreSQL)** in private subnets  
-- **S3 Bucket** for static assets  
-- **Security Groups** for:
-  - SSH & HTTP access to EC2  
-  - PostgreSQL access restricted to EC2
+- Amazon API Gateway – entry point for requests
+- AWS Lambda – executes backend logic
+- Amazon RDS (PostgreSQL) – relational database
+- Amazon S3 – static assets & avatar storage (versioning enabled)
+- Amazon CloudWatch – monitoring & logging
+- IAM Roles – secure permission handling
+- VPC & Security Groups – controlled network access
 
 ---
 
@@ -105,7 +109,8 @@ https://github.com/user-attachments/assets/d1c5c8e4-5b16-486a-b709-4cf6e6cce6bc
 - AWS account
 - AWS CLI installed & configured (aws configure)
 - Terraform v1.5+
-- AWS SSH key pair (for EC2 access)
+- PostgreSQL client (psql)
+- AWS SSH key pair (optional if debugging)
 
 ## 🚀 Deployment Steps
 
@@ -125,8 +130,7 @@ terraform init
 terraform plan
 
 ```
-
-### 🔹 Apply the configuration
+### 🔹 Deploy
 ```sh
 terraform apply -auto-approve
 ```
@@ -135,12 +139,14 @@ terraform apply -auto-approve
 ```sh
 terraform output
 ```
+This will print the ***API Gateway endpoint***.
+
 ## 🐘 PostgreSQL Setup
 
 You need a PostgreSQL database and a user before running the application.  
 This can be done locally or with AWS RDS.
 
-### Local Setup (Optional)
+### Local
 
 1. Log in to PostgreSQL:
    ```bash
@@ -150,33 +156,33 @@ This can be done locally or with AWS RDS.
    CREATE DATABASE grocerymate_db;
    CREATE USER grocery_user WITH ENCRYPTED PASSWORD '<your_secure_password>';
    GRANT ALL PRIVILEGES ON DATABASE grocerymate_db TO grocery_user;
-
+```
 3. Verify that the tables can be accessed:
+```bash
 \c grocerymate_db
 \dt
 ```
 ## AWS RDS Setup
+
+1. Create PostgreSQL RDS instance in same VPC
+2. Open port 5432 for Lambda’s security group
+3. Connect
 ```bash
-1. Create a PostgreSQL RDS instance in the same VPC as your EC2.
-2. Make sure port 5432 is open for your EC2 security group.
-3. Connect from EC2:
-
 psql -h <RDS_ENDPOINT> -U grocery_user -d grocerymate_db
-
+```
 4. Update your .env file with the RDS endpoint:
+```bash
 POSTGRES_HOST=<your_rds_endpoint>
 ```
+
 # 🛠️ Variables
 
 |        Variable        |      Description      |   Default     |
 |------------------------|-----------------------|---------------|
-| `instance_type`        | EC2 instance type     | `t2.micro`    |
 | `db_username`          | RDS username          | `postgres`    |
 | `db_password`          | RDS password          | set manually  |
 | `vpc_cidr`             | VPC CIDR block        | `10.10.0.0/16`|
 | `public_subnet_cidr`   | Public subnet CIDR    | `10.10.1.0/24`|
-| `private_subnet1_cidr` | Private subnet 1 CIDR | `10.10.2.0/24`|
-| `private_subnet2_cidr` | Private subnet 2 CIDR | `10.10.3.0/24`|
 
 ## 🧹 Cleanup
 
@@ -184,8 +190,7 @@ To avoid unnecessary AWS costs, destroy resources when not needed:
 ```bash
 terraform destroy -auto-approve
 ```
-## Update `.env`:
-
+## 🔧 Environment Variables
 ```sh
 nano .env
 ```
@@ -197,8 +202,9 @@ JWT_SECRET_KEY=<your_generated_key>
 POSTGRES_USER=grocery_user
 POSTGRES_PASSWORD=<your_password>
 POSTGRES_DB=grocerymate_db
-POSTGRES_HOST=localhost
+POSTGRES_HOST=<your_rds_endpoint>
 POSTGRES_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+
 ```
 
 ### 🔹 Run the Application
@@ -209,15 +215,14 @@ python3 run.py
 
 ## 📊 Cost Considerations
 
-- **EC2**: Free tier eligible (t2.micro)
-
-- **RDS**: Costs may apply (db.t3.micro ~ free tier for 12 months)
-
+- **Lambda**: very low (pay per request)
+- **RDS**: db.t3.micro (~ free tier 12 months)
 - **S3**: Low cost, pay per storage and requests
+- **CloudWatch**: pay per log volume
 
 ## ✅ Summary
-This project shows how to deploy a cloud-based application with Terraform on AWS.
-You learned how to provision networking, compute, database, and storage resources in a reproducible way. 
+This project demonstrates a serverless cloud deployment with AWS + Terraform.
+You provisioned networking, database, storage, and monitoring in a reproducible way.
 
 ## 🧑‍💻 Contributing
 
@@ -228,6 +233,7 @@ Here’s how you can contribute:
 2. Create a new branch:  
    ```bash
    git checkout -b feature/your-feature
+
 
 ## 📜 License
 
