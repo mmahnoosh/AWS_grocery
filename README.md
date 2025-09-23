@@ -20,7 +20,7 @@
 - [📸 Screenshots & Demo](#-screenshots--demo)
 - [📋 Prerequisites](#-prerequisites)
 - [🚀 Deployment Steps](#-deployment-steps)
-- [🐘 PostgreSQL Setup](#-PostgreSQL Setup)
+- [🐘 PostgreSQL Setup](#-PostgreSQLSetup)
 - [⚙️ Configuration Variables](#️-configuration-variables)
 - [🧹 Cleanup](#-cleanup)
 - [🔧 Environment Variables](#-environment-variables)
