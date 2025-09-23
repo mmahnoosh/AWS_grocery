@@ -14,20 +14,18 @@
 ## 📌 Table of Contents
 
 - [🏁 Introduction](#-introduction)
+- [🛒 Features](#-Features)
 - [🌐 Architecture & Approach](#-architecture--approach)
-  - [Components](#components)
-- [🛠️ Terraform Layout](#️-terraform-layout)
+- [🛠️ Terraform Layout](#-terraform-layout)
 - [📸 Screenshots & Demo](#-screenshots--demo)
-- [🔍 CloudWatch Monitoring](#-cloudwatch-monitoring)
 - [📋 Prerequisites](#-prerequisites)
 - [🚀 Deployment Steps](#-deployment-steps)
+- [🐘 PostgreSQL Setup](#-PostgreSQL Setup)
 - [⚙️ Configuration Variables](#️-configuration-variables)
 - [🧹 Cleanup](#-cleanup)
 - [🔧 Environment Variables](#-environment-variables)
 - [▶️ Run the Application](#️-run-the-application)
 - [💰 Cost Considerations](#-cost-considerations)
-- [🗺️ Architecture Diagram](#️-architecture-diagram)
-- [📚 Lessons Learned](#-lessons-learned)
 - [✅ Summary](#-summary)
 - [🧑‍💻 Contributing](#-contributing)
 - [📜 License](#-license)
@@ -156,9 +154,9 @@ This can be done locally or with AWS RDS.
 3. Verify that the tables can be accessed:
 \c grocerymate_db
 \dt
-
+```
 ## AWS RDS Setup
-
+```bash
 1. Create a PostgreSQL RDS instance in the same VPC as your EC2.
 2. Make sure port 5432 is open for your EC2 security group.
 3. Connect from EC2:
@@ -167,26 +165,26 @@ psql -h <RDS_ENDPOINT> -U grocery_user -d grocerymate_db
 
 4. Update your .env file with the RDS endpoint:
 POSTGRES_HOST=<your_rds_endpoint>
-
+```
 # 🛠️ Variables
 
-|       Variable       |      Description       |   Default     |
-|----------------------|------------------------|---------------|
-| `instance_type`      | EC2 instance type      | `t2.micro`    |
-| `db_username`        | RDS username           | `postgres`    |
-| `db_password`        | RDS password           | set manually  |
-| `vpc_cidr`           | VPC CIDR block         | `10.10.0.0/16`|
-| `public_subnet_cidr` | Public subnet CIDR     | `10.10.1.0/24`|
+|        Variable        |      Description      |   Default     |
+|------------------------|-----------------------|---------------|
+| `instance_type`        | EC2 instance type     | `t2.micro`    |
+| `db_username`          | RDS username          | `postgres`    |
+| `db_password`          | RDS password          | set manually  |
+| `vpc_cidr`             | VPC CIDR block        | `10.10.0.0/16`|
+| `public_subnet_cidr`   | Public subnet CIDR    | `10.10.1.0/24`|
 | `private_subnet1_cidr` | Private subnet 1 CIDR | `10.10.2.0/24`|
 | `private_subnet2_cidr` | Private subnet 2 CIDR | `10.10.3.0/24`|
 
-**🧹 Cleanup**
+## 🧹 Cleanup
 
 To avoid unnecessary AWS costs, destroy resources when not needed:
-```sh
+```bash
 terraform destroy -auto-approve
 ```
-Update `.env`:
+## Update `.env`:
 
 ```sh
 nano .env
@@ -203,9 +201,9 @@ POSTGRES_HOST=localhost
 POSTGRES_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
 ```
 
-### 🔹 Start the Application
+### 🔹 Run the Application
 
-```sh
+```bash
 python3 run.py
 ```
 
