@@ -63,8 +63,8 @@ All infrastructure is deployed with Terraform, ensuring reproducibility and main
 
 ## 📷 Architecture Diagram
 
+<img width="811" height="1038" alt="MyDiagram2909" src="https://github.com/user-attachments/assets/78bfd759-e532-4e48-a73f-c41854ebdd24" />
 
-<img width="1101" height="867" alt="High-Diagram drawio" src="https://github.com/user-attachments/assets/9ad5a79c-787d-43d7-b671-2d434e8146e4" />
 
 
 ### Components
