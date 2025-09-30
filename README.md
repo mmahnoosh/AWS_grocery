@@ -97,7 +97,7 @@ It highlights key cloud fundamentals:
     - Public Subnets → 0.0.0.0/0 → IGW
     - Private Subnets → 0.0.0.0/0 → NAT GW in same AZ
       
-## 📷 Architecture Diagram
+## 📷Architecture Diagram
 
 <img width="811" height="1036" alt="MyDiagram3009" src="https://github.com/user-attachments/assets/25e55fdb-a578-4f2a-90f1-717efad024b9" />
 
