@@ -1,4 +1,4 @@
-# Deployment Guide for AWS Grocery App (Terraform Deployment)
+# GroceryMate – AWS Deployment
 
 ## 🏆 GroceryMate E-Commerce Platform
 
