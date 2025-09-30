@@ -14,25 +14,26 @@
 ## 📌 Table of Contents
 
 - [📖 Introduction](#-introduction)
-- [🛒 Features](#-Features)
-- [☁️ AWS Services](#-AWS Services)
-- [🏗️ Architecture & Approach](#architecture--approach)
-- [📷 Architecture Diagram](#-Architecture Diagram)
-- [⚙️ Components](#-Components)
-- [🛠️ Terraform Layout](#terraform-layout)
+- [🛒 Features](#-features)
+- [☁️ AWS Services](#-aws-services)
+- [🏗️ Architecture & Approach](#-architecture--approach)
+- [📷 Architecture Diagram](#-architecture-diagram)
+- [⚙️ Components](#-components)
+- [🛠️ Terraform Layout](#-terraform-layout)
 - [📸 Screenshots & Demo](#-screenshots--demo)
 - [📋 Prerequisites](#-prerequisites)
 - [🚀 Deployment Steps](#-deployment-steps)
-- [🐘 PostgreSQL Setup](#-PostgreSQLSetup)
-- [🛢️AWS RDS Setup](#-AWS RDS Setup)
-- [⚙️ Configuration Variables](#️-configuration-variables)
+- [🐘 PostgreSQL Setup](#-postgresql-setup)
+- [🛢️ AWS RDS Setup](#-aws-rds-setup)
+- [⚙️ Configuration Variables](#-configuration-variables)
 - [🧹 Cleanup](#-cleanup)
 - [🔧 Environment Variables](#-environment-variables)
-- [▶️ Run the Application](#️-run-the-application)
+- [▶️ Run the Application](#-run-the-application)
 - [💰 Cost Considerations](#-cost-considerations)
 - [✅ Summary](#-summary)
 - [🧑‍💻 Contributing](#-contributing)
 - [📜 License](#-license)
+
   
 ## 📖 Introduction
 
