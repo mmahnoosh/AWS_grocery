@@ -91,11 +91,9 @@ It highlights key cloud fundamentals:
 
 ### Network Layout
 
-- **Public Subnets** (per AZ): ALB, EC2, NAT GW
+- **Public Subnets** (per AZ): ALB, EC2
 - **Private Subnets** (per AZ): RDS, potential future services
-- **Routing**:
-    - Public Subnets → 0.0.0.0/0 → IGW
-    - Private Subnets → 0.0.0.0/0 → NAT GW in same AZ
+
       
 ## 📷 Architecture Diagram
 
@@ -181,7 +179,6 @@ terraform apply -auto-approve
 ```sh
 terraform output
 ```
-This will print the ***API Gateway endpoint***.
 
 ## 🐘 PostgreSQL Setup
 
@@ -204,6 +201,7 @@ This can be done locally or with AWS RDS.
 \c grocerymate_db
 \dt
 ```
+
 ## 🛢️AWS RDS Setup
 
 1. Create PostgreSQL RDS instance in same VPC
@@ -234,6 +232,7 @@ terraform destroy -auto-approve
 ```
 
 ## 🔧 Environment Variables
+
 ```sh
 nano .env
 ```
