@@ -49,7 +49,7 @@ It highlights key cloud fundamentals:
 - Infrastructure as Code with Terraform
 
 > This document focuses exclusively on the AWS infrastructure, deployment process, and automation.
-> For details about the application's features, functionality, and local installation, refer to the original [`README.md`](APPLICATION.md) by Alejandro.
+> For details about the **application's features, functionality, and local installation**, refer to the original [`README.md`](APPLICATION.md) by Alejandro.
 
 
 ## 🛒 Features
