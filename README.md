@@ -13,7 +13,7 @@
 ---
 ## 📌 Table of Contents
 
-- [📖 Introduction](#introduction)
+- [📖 Introduction](#-introduction)
 - [🛒 Features](#features)
 - [☁️ AWS Services](#aws-services)
 - [🏗️ Architecture & Approach](#architecture--approach)
