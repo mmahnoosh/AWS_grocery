@@ -14,10 +14,10 @@
 ## 📌 Table of Contents
 
 - [📖 Introduction](#-introduction)
-- [🛒 Features](#features)
-- [☁️ AWS Services](#aws-services)
-- [🏗️ Architecture & Approach](#architecture--approach)
-- [📷 Architecture Diagram](#architecture--diagram)
+- [🛒 Features](#-features)
+- [☁️ AWS Services](#-aws-services)
+- [🏗️ Architecture & Approach](#-architecture--approach)
+- [📷 Architecture Diagram](#-architecture-diagram)
 - [⚙️ Components](#-components)
 - [🛠️ Terraform Layout](#-terraform-layout)
 - [📸 Screenshots & Demo](#-screenshots--demo)
